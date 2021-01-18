@@ -1,0 +1,56 @@
+#create example book
+POST http://localhost:8080/api/books HTTP/1.1
+Content-Type: application/json
+
+{
+  "title": "Comedy Viva loca boom",
+  "isbn": "3214312891234",
+  "summary": "Very good horror",
+  "description": "Very good description",
+  "publishYear": 1926,
+  "numberOfPages": 999,
+  "type": "EBOOK",
+  "categories": [
+    {
+      "name": "science fantasy"
+    },
+    {
+      "name": "fantasy"
+    },
+    {
+      "name": "comedy"
+    }
+  ]
+}
+###
+#create example book
+POST http://localhost:8080/api/books HTTP/1.1
+Content-Type: application/json
+
+{
+  "title": "Viva loca boom",
+  "isbn": "3539312891234",
+  "summary": "Very good horror",
+  "description": "Very good description",
+  "publishYear": 1926,
+  "numberOfPages": 999,
+  "type": "EBOOK",
+  "categories": [
+    {
+      "name": "science fantasy"
+    },
+    {
+      "name": "fantasy"
+    },
+    {
+      "name": "drama"
+    }
+  ]
+}
+
+###
+#get book with id 1
+GET http://localhost:8080/api/books
+Content-Type: application/json
+
+###
