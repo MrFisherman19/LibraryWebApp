@@ -26,7 +26,9 @@ public class Comment {
     private int voteUp;
     private int voteDown;
 
-    public Comment(String content) {
-        this.content = content;
-    }
+    @ManyToOne
+    private Post post;
+
+    @ManyToOne
+    private UserDetails user;
 }

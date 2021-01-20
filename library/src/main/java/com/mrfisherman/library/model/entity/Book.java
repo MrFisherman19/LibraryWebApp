@@ -45,6 +45,9 @@ public class Book {
     @OneToMany(mappedBy = "book", orphanRemoval = true)
     private List<Post> posts = new ArrayList<>();
 
+    @ManyToMany(mappedBy = "likedBooks")
+    private Set<UserDetails> usersLiked = new HashSet<>();
+
     public void addCategories(Category category) {
         categories.add(category);
     }

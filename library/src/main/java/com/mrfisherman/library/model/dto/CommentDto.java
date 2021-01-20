@@ -12,18 +12,18 @@ import java.time.LocalDateTime;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class PostDto extends RepresentationModel<PostDto> {
+public class CommentDto extends RepresentationModel<CommentDto> {
 
     private Long id;
-    private Long bookId;
+    private Long postId;
     private Long userId;
 
-    private String title;
     private String content;
+
+    private int voteUp;
+    private int voteDown;
 
     private LocalDateTime created;
     private LocalDateTime updated;
 
-    private int voteUp;
-    private int voteDown;
 }

@@ -1,5 +1,5 @@
-DROP TABLE IF EXISTS `posts`;
-CREATE TABLE `posts`
+-- DROP TABLE IF EXISTS `posts`;
+CREATE TABLE IF NOT EXISTS `posts`
 (
     `id`              BIGINT             NOT NULL AUTO_INCREMENT,
     `title`           VARCHAR(300)       NOT NULL,
