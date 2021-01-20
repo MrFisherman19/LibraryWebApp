@@ -1,5 +1,6 @@
 package com.mrfisherman.library.model.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,8 +10,8 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CategoryDto {
+public class CommentInsertDto {
 
-    private Long id;
-    private String name;
+    private String content;
+
 }

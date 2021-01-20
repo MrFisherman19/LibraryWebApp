@@ -1,28 +1,26 @@
 package com.mrfisherman.library.service;
 
-import com.mrfisherman.library.exception.NoBookFoundException;
 import com.mrfisherman.library.model.entity.Book;
 import com.mrfisherman.library.model.entity.Category;
 import com.mrfisherman.library.persistence.repository.BookRepository;
+import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import static java.lang.String.format;
 
+@AllArgsConstructor
 @Service
 public class BookService {
 
     private final BookRepository bookRepository;
     private final CategoryService categoryService;
-
-    public BookService(BookRepository bookRepository, CategoryService categoryService) {
-        this.bookRepository = bookRepository;
-        this.categoryService = categoryService;
-    }
+    private final ExceptionHelper<Book> exceptionHelper;
 
     @Transactional
     public Book saveBook(Book book) {
@@ -34,25 +32,25 @@ public class BookService {
         return bookRepository.save(book);
     }
 
+    @Transactional
     public Book getBook(Long id) {
         return bookRepository.findById(id).orElseThrow(
-                () -> new NoBookFoundException(format("Cannot find book with given id: %d", id)));
+                exceptionHelper.getEntityNotFoundException(id, Book.class));
     }
 
-    public Book getBookWithPosts(Long id) {
-        return bookRepository.findByIdWithPosts(id);
+    @Transactional
+    public Page<Book> getAllBooks(Pageable pageable) {
+        return bookRepository.findAll(pageable);
     }
 
-    public List<Book> getAllBooks() {
-        return bookRepository.findAll();
-    }
-
+    @Transactional
     public void updateBook(Book book) {
         if (bookRepository.existsById(book.getId())) {
             bookRepository.save(book);
         }
     }
 
+    @Transactional
     public void deleteById(Long id) {
         if (bookRepository.existsById(id)) {
             bookRepository.deleteById(id);

@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.hateoas.RepresentationModel;
 
 import java.time.LocalDateTime;
 import java.util.Set;
@@ -12,9 +13,9 @@ import java.util.Set;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class BookDto {
+public class BookDto extends RepresentationModel<BookDto> {
 
-    private long id;
+    private Long id;
     private String title;
     private String isbn;
     private String summary;

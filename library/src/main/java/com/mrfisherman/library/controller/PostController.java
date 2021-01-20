@@ -1,40 +1,93 @@
 package com.mrfisherman.library.controller;
 
-import com.mrfisherman.library.model.dto.PostDto;
-import com.mrfisherman.library.model.dto.PostInsertDto;
+import com.mrfisherman.library.controller.hateoas.CommentResourceAssembler;
+import com.mrfisherman.library.controller.hateoas.PostResourceAssembler;
+import com.mrfisherman.library.model.dto.*;
+import com.mrfisherman.library.model.entity.Comment;
 import com.mrfisherman.library.model.entity.Post;
 import com.mrfisherman.library.service.PostService;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.convention.MatchingStrategies;
+import org.modelmapper.spi.MatchingStrategy;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/posts")
 public class PostController {
 
     private final ModelMapper mapper;
     private final PostService postService;
+    private final PostResourceAssembler postResourceAssembler;
+    private final CommentResourceAssembler commentResourceAssembler;
+    private final PagedResourcesAssembler<Post> pagedResourcesAssembler;
 
-    public PostController(ModelMapper mapper, PostService postService) {
-        this.mapper = mapper;
-        this.postService = postService;
-    }
-
-    @GetMapping("/{postId}")
-    public PostDto getPost(@PathVariable Long postId) {
-        return mapper.map(postService.findById(postId), PostDto.class);
-    }
-
-    @PutMapping
+    @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public PostDto updatePost(@RequestBody PostInsertDto postToUpdate) {
-        Post updated = postService.update(mapper.map(postToUpdate, Post.class));
+    public ResponseEntity<PagedModel<PostDto>> getPosts(@RequestParam(required = false) Long bookId,
+                                                        @PageableDefault Pageable pageable) {
+        Optional<Long> bookParam = Optional.ofNullable(bookId);
+
+        PagedModel<PostDto> page = getPostDtoModel(pageable, bookParam);
+
+        return new ResponseEntity<>(page, HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public PostDto getPost(@PathVariable Long id) {
+        return postResourceAssembler.toModel(postService.findById(id));
+    }
+
+    @GetMapping("/{id}/comments")
+    @ResponseStatus(HttpStatus.OK)
+    public CollectionModel<CommentDto> getComments(@PathVariable Long id) {
+        return commentResourceAssembler.toCollectionModel(postService.findCommentsByPostId(id));
+    }
+
+    @PostMapping("/{id}/comments")
+    @ResponseStatus(HttpStatus.CREATED)
+    public CommentDto createComment(@PathVariable Long id, @RequestBody CommentInsertDto commentDto) {
+        Comment comment = mapper.map(commentDto, Comment.class);
+        return mapper.map(postService.addComment(id, comment), CommentDto.class);
+    }
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public PostDto createPost(@RequestBody PostInsertDto postInsertDto) {
+        Post post = mapper.map(postInsertDto, Post.class);
+        Post postCreated = postService.savePost(post);
+        return mapper.map(postCreated, PostDto.class);
+    }
+
+    @PutMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public PostDto updatePost(@PathVariable Long id, @RequestBody PostUpdateDto postToUpdate) {
+        Post updated = postService.update(id, mapper.map(postToUpdate, Post.class));
         return mapper.map(updated, PostDto.class);
     }
 
-    @DeleteMapping("/{postId}")
+    @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deletePost(@PathVariable Long postId) {
-        postService.deleteById(postId);
+    public void deletePost(@PathVariable Long id) {
+        postService.deleteById(id);
+    }
+
+    private PagedModel<PostDto> getPostDtoModel(Pageable pageable, Optional<Long> bookParam) {
+        Page<Post> postPage = bookParam.map(aLong -> postService.getByBookId(aLong, pageable))
+                .orElseGet(() -> postService.getAllPosts(pageable));
+
+        return pagedResourcesAssembler.toModel(postPage, postResourceAssembler);
     }
 }

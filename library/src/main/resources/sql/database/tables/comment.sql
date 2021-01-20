@@ -1,5 +1,5 @@
-DROP TABLE IF EXISTS `comments`;
-CREATE TABLE `comments`
+-- DROP TABLE IF EXISTS `comments`;
+CREATE TABLE IF NOT EXISTS `comments`
 (
     `id`        BIGINT NOT NULL AUTO_INCREMENT,
     `content`   VARCHAR(3000),

@@ -1,5 +1,5 @@
-DROP TABLE IF EXISTS `books_categories`;
-CREATE TABLE `books_categories`
+-- DROP TABLE IF EXISTS `books_categories`;
+CREATE TABLE IF NOT EXISTS `books_categories`
 (
     `book_id`     BIGINT NOT NULL,
     `category_id` BIGINT NOT NULL,

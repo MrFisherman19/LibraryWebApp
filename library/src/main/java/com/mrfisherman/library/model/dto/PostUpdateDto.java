@@ -5,18 +5,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
-
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
-public class PostMinimalDto {
+@NoArgsConstructor
+public class PostUpdateDto {
 
-    private long id;
     private String title;
-    private LocalDateTime created;
-    private int commentsCounter;
+    private String content;
 
 }
-
