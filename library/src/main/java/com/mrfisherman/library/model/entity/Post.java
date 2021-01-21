@@ -35,8 +35,8 @@ public class Post {
     @OneToMany(orphanRemoval = true, cascade = CascadeType.PERSIST, mappedBy = "post")
     private List<Comment> comments = new ArrayList<>();
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    private UserDetails user;
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    private UserDetails user;
 
     public Post(String title, String content) {
         this.title = title;
@@ -48,19 +48,4 @@ public class Post {
         comment.setPost(this);
     }
 
-    @Override
-    public String toString() {
-        return "Post{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", content='" + content + '\'' +
-                ", created=" + created +
-                ", updated=" + updated +
-                ", voteUp=" + voteUp +
-                ", voteDown=" + voteDown +
-                ", book=" + book +
-                ", comments=" + comments +
-                ", user=" + user +
-                '}';
-    }
 }

@@ -20,10 +20,10 @@ import java.util.List;
 public class SwaggerConfig {
 
     @Bean
-    public Docket get() {
+    public Docket getApi() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                .paths(PathSelectors.ant("/api/**"))
+                .paths(PathSelectors.any())
                 .apis(RequestHandlerSelectors.basePackage("com.mrfisherman.library"))
                 .build();
     }

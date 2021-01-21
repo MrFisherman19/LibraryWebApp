@@ -16,7 +16,6 @@ public class PostDto extends RepresentationModel<PostDto> {
 
     private Long id;
     private Long bookId;
-    private Long userId;
 
     private String title;
     private String content;

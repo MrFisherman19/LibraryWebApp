@@ -1,17 +1,17 @@
 package com.mrfisherman.library.model.entity;
 
-import com.mrfisherman.library.model.entity.types.UserRole;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.util.Set;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @Entity
+@Table(name = "users")
 public class User {
 
     @Id
@@ -21,11 +21,11 @@ public class User {
     private String username;
     private String email;
     private String password;
+    private boolean enabled;
 
-    @Enumerated(value = EnumType.STRING)
-    private UserRole userRole = UserRole.USER_ROLE;
-
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL, optional = false)
-    private UserDetails userDetails;
+    @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+    @JoinTable(name = "user_roles", joinColumns = {@JoinColumn(name = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "role_id")})
+    private Set<Role> roles;
 
 }

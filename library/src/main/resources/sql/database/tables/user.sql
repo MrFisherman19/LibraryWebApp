@@ -1,21 +1,19 @@
-DROP TABLE IF EXISTS `user`;
-CREATE TABLE `user`
+CREATE TABLE `users`
 (
-    `id`        BIGINT      NOT NULL,
-    `username`  VARCHAR(25) NOT NULL,
-    `email`     VARCHAR(50) NOT NULL,
-    `password`  CHAR(60)    NOT NULL,
-    `user_role` VARCHAR(25) NOT NULL,
-    PRIMARY KEY (`id`)
+    `username` varchar(50) not null primary key,
+    `password` varchar(50) not null,
+    `enabled` boolean not null,
+    `email`     VARCHAR(50) NULL
 );
 
 DROP TABLE IF EXISTS `user_details`;
 CREATE TABLE `user_details`
 (
-    `id`       BIGINT NOT NULL,
+    `username` VARCHAR(50) NOT NULL,
     `sentence` VARCHAR(2000),
-    PRIMARY KEY (`id`),
-    FOREIGN KEY (`id`) REFERENCES `user` (`id`)
+    `created`  DATETIME,
+    PRIMARY KEY (`username`),
+    FOREIGN KEY (`username`) REFERENCES `users` (`username`)
 );
 
 DROP TABLE IF EXISTS 'user_liked_books';
