@@ -1,9 +1,10 @@
 package com.mrfisherman.library.service;
 
-import com.mrfisherman.library.model.entity.*;
+import com.mrfisherman.library.model.entity.Book;
+import com.mrfisherman.library.model.entity.Comment;
+import com.mrfisherman.library.model.entity.Post;
 import com.mrfisherman.library.persistence.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;

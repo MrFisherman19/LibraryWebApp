@@ -16,7 +16,6 @@ public class CommentDto extends RepresentationModel<CommentDto> {
 
     private Long id;
     private Long postId;
-    private Long userId;
 
     private String content;
 
