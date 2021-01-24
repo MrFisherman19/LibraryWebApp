@@ -10,6 +10,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/comments")
@@ -27,7 +29,7 @@ public class CommentController {
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public CommentDto updateComment(@PathVariable Long id, @RequestBody CommentInsertDto commentToUpdate) {
+    public CommentDto updateComment(@PathVariable Long id, @Valid @RequestBody CommentInsertDto commentToUpdate) {
         Comment updated = commentService.update(id, mapper.map(commentToUpdate, Comment.class));
         return mapper.map(updated, CommentDto.class);
     }

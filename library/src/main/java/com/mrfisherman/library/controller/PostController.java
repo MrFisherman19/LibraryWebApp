@@ -18,6 +18,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -56,14 +57,14 @@ public class PostController {
 
     @PostMapping("/{id}/comments")
     @ResponseStatus(HttpStatus.CREATED)
-    public CommentDto createComment(@PathVariable Long id, @RequestBody CommentInsertDto commentDto) {
+    public CommentDto createComment(@PathVariable Long id, @Valid @RequestBody CommentInsertDto commentDto) {
         Comment comment = mapper.map(commentDto, Comment.class);
         return mapper.map(postService.addComment(id, comment), CommentDto.class);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public PostDto createPost(@RequestBody PostInsertDto postInsertDto) {
+    public PostDto createPost(@Valid @RequestBody PostInsertDto postInsertDto) {
         Post post = mapper.map(postInsertDto, Post.class);
         Post postCreated = postService.savePost(post);
         return mapper.map(postCreated, PostDto.class);
@@ -71,7 +72,7 @@ public class PostController {
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public PostDto updatePost(@PathVariable Long id, @RequestBody PostUpdateDto postToUpdate) {
+    public PostDto updatePost(@PathVariable Long id, @Valid @RequestBody PostUpdateDto postToUpdate) {
         Post updated = postService.update(id, mapper.map(postToUpdate, Post.class));
         return mapper.map(updated, PostDto.class);
     }

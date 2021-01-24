@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -20,20 +21,35 @@ public class Book {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @NotBlank(message = "Title is mandatory")
     private String title;
+
+    @NotBlank(message = "Isbn is mandatory")
     private String isbn;
+
+    @Size(max = 300, message = "Summary have to be shorter than 300 characters")
     private String summary;
+
+    @Size(max = 2000, message = "Description have to be shorter than 2000 characters")
     private String description;
+
+    @Positive(message = "Year can't be negative")
     private Integer publishYear;
+
+    @Positive(message = "Number of pages can't be negative")
     private Integer numberOfPages;
 
     @Enumerated(value = EnumType.STRING)
     private BookFormat type;
+
     private LocalDateTime created = LocalDateTime.now();
     private LocalDateTime updated = LocalDateTime.now();
-    private double rating;
 
-    //eager because is small dataset and it is not nested
+    //set 5 as default, in the middle of range
+    @Min(value = 1, message = "Minimal rating is 1")
+    @Max(value = 10, message = "Maximum rating is 10")
+    private double rating = 5;
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "books_categories",
             joinColumns = {@JoinColumn(name = "book_id",
@@ -44,9 +60,6 @@ public class Book {
 
     @OneToMany(mappedBy = "book", orphanRemoval = true)
     private List<Post> posts = new ArrayList<>();
-
-//    @ManyToMany(mappedBy = "likedBooks")
-//    private Set<UserDetails> usersLiked = new HashSet<>();
 
     public void addCategories(Category category) {
         categories.add(category);

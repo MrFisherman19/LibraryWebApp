@@ -5,6 +5,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.PositiveOrZero;
 import java.time.LocalDateTime;
 
 @Getter
@@ -18,12 +20,16 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @NotBlank(message = "Comment content cannot be blank")
     private String content;
 
     private LocalDateTime created = LocalDateTime.now();
     private LocalDateTime updated = LocalDateTime.now();
 
+    @PositiveOrZero
     private int voteUp;
+
+    @PositiveOrZero
     private int voteDown;
 
     @ManyToOne

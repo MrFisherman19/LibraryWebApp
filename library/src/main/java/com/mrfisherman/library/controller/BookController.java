@@ -11,11 +11,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.data.web.PagedResourcesAssembler;
-import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.PagedModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @RestController
 @RequiredArgsConstructor
@@ -42,7 +43,7 @@ public class BookController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public BookDto createBook(@RequestBody BookInsertDto bookInsertDto) {
+    public BookDto createBook(@Valid @RequestBody BookInsertDto bookInsertDto) {
         Book book = mapper.map(bookInsertDto, Book.class);
         Book bookCreated = bookService.saveBook(book);
         return mapper.map(bookCreated, BookDto.class);

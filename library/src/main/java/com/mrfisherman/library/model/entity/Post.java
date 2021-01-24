@@ -5,6 +5,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.PositiveOrZero;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,13 +22,19 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @NotBlank(message = "Title of post is mandatory")
     private String title;
+
+    @NotBlank(message = "Content of post is mandatory")
     private String content;
 
     private LocalDateTime created = LocalDateTime.now();
     private LocalDateTime updated = LocalDateTime.now();
 
+    @PositiveOrZero
     private int voteUp;
+
+    @PositiveOrZero
     private int voteDown;
 
     @ManyToOne(fetch = FetchType.LAZY)
