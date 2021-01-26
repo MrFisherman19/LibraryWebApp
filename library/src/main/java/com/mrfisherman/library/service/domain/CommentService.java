@@ -1,4 +1,4 @@
-package com.mrfisherman.library.service;
+package com.mrfisherman.library.service.domain;
 
 import com.mrfisherman.library.exception.EntityUpdateTimeLimitExceededException;
 import com.mrfisherman.library.model.entity.Comment;

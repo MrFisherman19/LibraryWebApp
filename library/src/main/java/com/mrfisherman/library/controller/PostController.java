@@ -5,7 +5,7 @@ import com.mrfisherman.library.controller.hateoas.PostResourceAssembler;
 import com.mrfisherman.library.model.dto.*;
 import com.mrfisherman.library.model.entity.Comment;
 import com.mrfisherman.library.model.entity.Post;
-import com.mrfisherman.library.service.PostService;
+import com.mrfisherman.library.service.domain.PostService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;

@@ -36,7 +36,7 @@ public class RestExceptionHandler {
     public ApiValidationErrorResponse handleConstraintViolationException(ConstraintViolationException e) {
         var constraintViolations = e.getConstraintViolations().stream()
                 .collect(Collectors.toMap(f -> String.valueOf(f.getPropertyPath()), ConstraintViolation::getMessage));
-
+        e.getConstraintViolations().stream().map(ConstraintViolation::getInvalidValue).forEach(System.out::println);
         return new ApiValidationErrorResponse(HttpStatus.BAD_REQUEST, VALIDATION_ERROR_MESSAGE, constraintViolations);
     }
 

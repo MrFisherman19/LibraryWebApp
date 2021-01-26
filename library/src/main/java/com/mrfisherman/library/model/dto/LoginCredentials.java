@@ -1,4 +1,4 @@
-package com.mrfisherman.library.configuration.security;
+package com.mrfisherman.library.model.dto;
 
 import lombok.Getter;
 import lombok.Setter;

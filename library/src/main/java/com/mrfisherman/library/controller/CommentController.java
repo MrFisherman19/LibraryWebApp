@@ -4,7 +4,7 @@ import com.mrfisherman.library.controller.hateoas.CommentResourceAssembler;
 import com.mrfisherman.library.model.dto.CommentDto;
 import com.mrfisherman.library.model.dto.CommentInsertDto;
 import com.mrfisherman.library.model.entity.Comment;
-import com.mrfisherman.library.service.CommentService;
+import com.mrfisherman.library.service.domain.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;

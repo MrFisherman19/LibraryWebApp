@@ -47,7 +47,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/v2/api-docs").permitAll()
                 .antMatchers("/webjars/**").permitAll()
                 .antMatchers("/swagger-resources/**").permitAll()
-                .antMatchers("/login/**").permitAll()
+                .antMatchers("/register/**").permitAll()
+                .antMatchers("/registrationConfirm").permitAll()
                 .antMatchers("/").permitAll()
                 .anyRequest().authenticated()
                 .and()
@@ -56,7 +57,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .addFilter(authenticationFilter())
                 .addFilter(new JwtAuthorizationFilter(authenticationManager(), super.userDetailsService(), secret))
                 .exceptionHandling()
-                .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED));
+                .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
+                .and()
+                .headers().frameOptions().disable();
     }
 
     public JsonObjectAuthenticationFilter authenticationFilter() throws Exception {

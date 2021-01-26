@@ -4,7 +4,7 @@ import com.mrfisherman.library.controller.hateoas.BookResourceAssembler;
 import com.mrfisherman.library.model.dto.BookDto;
 import com.mrfisherman.library.model.dto.BookInsertDto;
 import com.mrfisherman.library.model.entity.Book;
-import com.mrfisherman.library.service.BookService;
+import com.mrfisherman.library.service.domain.BookService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;

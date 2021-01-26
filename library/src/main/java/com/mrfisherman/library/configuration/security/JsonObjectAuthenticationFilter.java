@@ -1,6 +1,7 @@
 package com.mrfisherman.library.configuration.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mrfisherman.library.model.dto.LoginCredentials;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;

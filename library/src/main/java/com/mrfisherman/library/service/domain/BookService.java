@@ -1,4 +1,4 @@
-package com.mrfisherman.library.service;
+package com.mrfisherman.library.service.domain;
 
 import com.mrfisherman.library.model.entity.Book;
 import com.mrfisherman.library.model.entity.Category;
@@ -9,7 +9,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.PostConstruct;
 import java.util.Set;
 import java.util.stream.Collectors;
 
