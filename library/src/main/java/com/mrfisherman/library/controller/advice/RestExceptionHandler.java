@@ -1,5 +1,7 @@
 package com.mrfisherman.library.controller.advice;
 
+import com.auth0.jwt.exceptions.TokenExpiredException;
+import com.mrfisherman.library.exception.InvalidTokenException;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -40,7 +42,7 @@ public class RestExceptionHandler {
         return new ApiValidationErrorResponse(HttpStatus.BAD_REQUEST, VALIDATION_ERROR_MESSAGE, constraintViolations);
     }
 
-    @ExceptionHandler(value = {MethodArgumentNotValidException.class})
+    @ExceptionHandler(value = MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ApiValidationErrorResponse handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
         var constraintViolations = e.getBindingResult().getAllErrors().stream()
@@ -49,5 +51,11 @@ public class RestExceptionHandler {
                         Optional.ofNullable(errorField.getDefaultMessage()).orElse("Validation failed for this field")));
 
         return new ApiValidationErrorResponse(HttpStatus.BAD_REQUEST, VALIDATION_ERROR_MESSAGE, constraintViolations);
+    }
+
+    @ExceptionHandler(value = {InvalidTokenException.class, TokenExpiredException.class})
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public ApiErrorResponse handleVerifyExceptions(InvalidTokenException e) {
+        return new ApiErrorResponse(HttpStatus.UNAUTHORIZED, e.getMessage());
     }
 }

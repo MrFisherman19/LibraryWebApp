@@ -33,8 +33,10 @@ public class PostService {
     }
 
     @Transactional
-    public Post savePost(Post post) {
-        Book book = bookService.getBook(post.getBook().getId());
+    public Post save(Post post) {
+        Optional<Book> bookOpt = Optional.ofNullable(post.getBook());
+        Book bookInPost = bookOpt.orElseThrow(() -> new IllegalArgumentException("Book id for new Post cannot be null!"));
+        Book book = bookService.findById(bookInPost.getId());
         book.addPost(post);
         return postRepository.save(post);
     }
@@ -72,9 +74,22 @@ public class PostService {
         return postRepository.findAllByBookId(bookId, pagination);
     }
 
+    @Transactional
+    public Post voteUp(Long id) {
+        Post one = getOne(id);
+        one.addVoteUp();
+        return save(one);
+    }
+
+    @Transactional
+    public Post voteDown(Long id) {
+        Post one = getOne(id);
+        one.addVoteDown();
+        return save(one);
+    }
+
     private Post getOne(Long id) {
         final Optional<Post> post = Optional.of(postRepository.getOne(id));
         return post.orElseThrow(exceptionHelper.getEntityNotFoundException(id, Post.class));
     }
-
 }

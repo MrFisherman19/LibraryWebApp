@@ -33,7 +33,6 @@ public class PostResourceAssembler implements RepresentationModelAssembler<Post,
         return postDto;
     }
 
-
     @Override
     public CollectionModel<PostDto> toCollectionModel(Iterable<? extends Post> entities) {
         List<PostDto> posts = new ArrayList<>();

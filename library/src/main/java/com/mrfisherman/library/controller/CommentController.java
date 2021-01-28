@@ -24,7 +24,7 @@ public class CommentController {
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public CommentDto getComment(@PathVariable Long id) {
-        return assembler.toModel(commentService.getComment(id));
+        return assembler.toModel(commentService.findById(id));
     }
 
     @PutMapping("/{id}")

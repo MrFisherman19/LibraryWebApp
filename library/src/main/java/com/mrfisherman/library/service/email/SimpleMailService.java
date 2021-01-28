@@ -4,6 +4,7 @@ import com.mrfisherman.library.model.pojo.Email;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -17,6 +18,7 @@ public class SimpleMailService implements EmailService {
         this.sender = sender;
     }
 
+    @Async
     @Override
     public void sendMessage(Email email) {
         javaMailSender.send(prepareSimpleMail(email));

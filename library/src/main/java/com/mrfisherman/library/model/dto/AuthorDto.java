@@ -9,7 +9,9 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CategoryDto {
+public class AuthorDto {
 
+    private Long id;
     private String name;
+    private double rating;
 }

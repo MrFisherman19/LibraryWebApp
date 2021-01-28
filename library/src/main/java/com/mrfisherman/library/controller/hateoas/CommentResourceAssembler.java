@@ -1,9 +1,7 @@
 package com.mrfisherman.library.controller.hateoas;
 
-import com.mrfisherman.library.controller.BookController;
 import com.mrfisherman.library.controller.CommentController;
 import com.mrfisherman.library.controller.PostController;
-import com.mrfisherman.library.model.dto.BookDto;
 import com.mrfisherman.library.model.dto.CommentDto;
 import com.mrfisherman.library.model.entity.Comment;
 import lombok.RequiredArgsConstructor;

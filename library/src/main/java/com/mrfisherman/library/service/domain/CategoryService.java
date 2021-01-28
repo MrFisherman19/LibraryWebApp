@@ -15,7 +15,7 @@ public class CategoryService {
     }
 
     @Transactional
-    public Category saveCategory(final Category category) {
+    public Category save(final Category category) {
         if (categoryRepository.existsByName(category.getName())) {
             return categoryRepository.findByName(category.getName());
         } else {

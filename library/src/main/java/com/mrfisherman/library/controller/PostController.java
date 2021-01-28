@@ -49,6 +49,18 @@ public class PostController {
         return postResourceAssembler.toModel(postService.findById(id));
     }
 
+    @PatchMapping("/{id}/voteUp")
+    @ResponseStatus(HttpStatus.OK)
+    public PostDto voteUpPost(@PathVariable Long id) {
+        return postResourceAssembler.toModel(postService.voteUp(id));
+    }
+
+    @PatchMapping("/{id}/voteDown")
+    @ResponseStatus(HttpStatus.OK)
+    public PostDto voteDownPost(@PathVariable Long id) {
+        return postResourceAssembler.toModel(postService.voteDown(id));
+    }
+
     @GetMapping("/{id}/comments")
     @ResponseStatus(HttpStatus.OK)
     public CollectionModel<CommentDto> getComments(@PathVariable Long id) {
@@ -66,7 +78,7 @@ public class PostController {
     @ResponseStatus(HttpStatus.CREATED)
     public PostDto createPost(@Valid @RequestBody PostInsertDto postInsertDto) {
         Post post = mapper.map(postInsertDto, Post.class);
-        Post postCreated = postService.savePost(post);
+        Post postCreated = postService.save(post);
         return mapper.map(postCreated, PostDto.class);
     }
 

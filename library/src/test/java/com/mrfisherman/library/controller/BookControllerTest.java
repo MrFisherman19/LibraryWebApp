@@ -14,7 +14,6 @@ import org.springframework.security.test.context.support.WithAnonymousUser;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -32,7 +31,7 @@ class BookControllerTest {
     private MockMvc mockMvc;
 
     @Test
-    @WithMockUser(username = "testUser", roles = {"USER_ADMIN"})
+    @WithMockUser(username = "testUser")
     void shouldReturnBookById() throws Exception {
         long bookId = 1L;
 
@@ -42,7 +41,7 @@ class BookControllerTest {
         bookToReturn.setIsbn("1234");
         bookToReturn.setTitle("Nineteen Eighty-Four");
 
-        when(bookService.getBook(bookId)).thenReturn(bookToReturn);
+        when(bookService.findById(bookId)).thenReturn(bookToReturn);
 
         mockMvc.perform(get("/api/books/" + bookId)
                 .accept(MediaType.APPLICATION_JSON))
@@ -65,7 +64,7 @@ class BookControllerTest {
         bookToReturn.setIsbn("1234");
         bookToReturn.setTitle("Nineteen Eighty-Four");
 
-        when(bookService.getBook(bookId)).thenReturn(bookToReturn);
+        when(bookService.findById(bookId)).thenReturn(bookToReturn);
 
         mockMvc.perform(get("/api/books/" + bookId)
                 .accept(MediaType.APPLICATION_JSON))

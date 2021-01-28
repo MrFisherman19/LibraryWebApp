@@ -23,7 +23,7 @@ public class CommentService {
     private final ExceptionHelper<Comment> exceptionHelper;
 
     @Transactional
-    public Comment getComment(Long id) {
+    public Comment findById(Long id) {
         return commentRepository.findById(id).orElseThrow(exceptionHelper.getEntityNotFoundException(id, Comment.class));
     }
 

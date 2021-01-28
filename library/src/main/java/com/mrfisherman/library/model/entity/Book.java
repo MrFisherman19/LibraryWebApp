@@ -24,6 +24,14 @@ public class Book {
     @NotBlank(message = "Title is mandatory")
     private String title;
 
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST})
+    @JoinTable(name = "books_authors",
+            joinColumns = {@JoinColumn(name = "book_id",
+                    insertable = false, updatable = false)},
+            inverseJoinColumns = {@JoinColumn(name = "author_id",
+                    insertable = false, updatable = false)})
+    private Set<Author> authors = new HashSet<>();
+
     @NotBlank(message = "Isbn is mandatory")
     private String isbn;
 
@@ -45,7 +53,6 @@ public class Book {
     private LocalDateTime created = LocalDateTime.now();
     private LocalDateTime updated = LocalDateTime.now();
 
-    //set 5 as default, in the middle of range
     @Min(value = 1, message = "Minimal rating is 1")
     @Max(value = 10, message = "Maximum rating is 10")
     private double rating = 5;
@@ -54,7 +61,7 @@ public class Book {
     @JoinTable(name = "books_categories",
             joinColumns = {@JoinColumn(name = "book_id",
                     insertable = false, updatable = false)},
-            inverseJoinColumns = {@JoinColumn(name = "category_id",
+            inverseJoinColumns = {@JoinColumn(name = "category_name",
                     insertable = false, updatable = false)})
     private Set<Category> categories = new HashSet<>();
 
@@ -73,6 +80,16 @@ public class Book {
     public void removePost(Post post) {
         this.posts.remove(post);
         post.setBook(null);
+    }
+
+    public void addAuthor(Author author) {
+        this.authors.add(author);
+        author.getBooks().add(this);
+    }
+
+    public void removeAuthor(Author author) {
+        this.authors.remove(author);
+        author.getBooks().remove(this);
     }
 
     @Override

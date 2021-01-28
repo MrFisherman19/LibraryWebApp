@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -23,9 +24,9 @@ public class BookService {
     private final ExceptionHelper<Book> exceptionHelper;
 
     @Transactional
-    public Book saveBook(Book book) {
+    public Book save(Book book) {
         Set<Category> categories = book.getCategories().stream()
-                .map(categoryService::saveCategory)
+                .map(categoryService::save)
                 .collect(Collectors.toSet());
         categories.forEach(category -> category.addBook(book));
         book.setCategories(categories);
@@ -33,21 +34,28 @@ public class BookService {
     }
 
     @Transactional
-    public Book getBook(Long id) {
+    public Book findById(Long id) {
         return bookRepository.findById(id).orElseThrow(
                 exceptionHelper.getEntityNotFoundException(id, Book.class));
     }
 
     @Transactional
-    public Page<Book> getAllBooks(Pageable pageable) {
+    public Page<Book> findAll(Pageable pageable) {
         return bookRepository.findAll(pageable);
     }
 
     @Transactional
-    public void updateBook(Book book) {
-        if (bookRepository.existsById(book.getId())) {
-            bookRepository.save(book);
-        }
+    public Book update(Long id, Book book) {
+        Book bookToUpdate = findById(id);
+        bookToUpdate.setTitle(book.getTitle());
+        bookToUpdate.setSummary(book.getSummary());
+        bookToUpdate.setNumberOfPages(book.getNumberOfPages());
+        bookToUpdate.setType(book.getType());
+        bookToUpdate.setDescription(book.getDescription());
+        bookToUpdate.setPublishYear(book.getPublishYear());
+        bookToUpdate.setCategories(book.getCategories());
+        bookToUpdate.setUpdated(LocalDateTime.now());
+        return bookToUpdate;
     }
 
     @Transactional

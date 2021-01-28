@@ -1,5 +1,6 @@
 package com.mrfisherman.library.model.entity;
 
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -31,9 +32,11 @@ public class Post {
     private LocalDateTime created = LocalDateTime.now();
     private LocalDateTime updated = LocalDateTime.now();
 
+    @Setter(AccessLevel.NONE)
     @PositiveOrZero
     private int voteUp;
 
+    @Setter(AccessLevel.NONE)
     @PositiveOrZero
     private int voteDown;
 
@@ -54,6 +57,14 @@ public class Post {
     public void addComment(Comment comment) {
         comments.add(comment);
         comment.setPost(this);
+    }
+
+    public void addVoteUp() {
+        this.voteUp++;
+    }
+
+    public void addVoteDown() {
+        this.voteDown++;
     }
 
 }

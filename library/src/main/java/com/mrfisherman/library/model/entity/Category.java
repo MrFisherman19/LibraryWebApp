@@ -18,9 +18,6 @@ import java.util.Set;
 public class Category {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-
     @NotBlank(message = "Category name is mandatory")
     @Column(unique = true)
     private String name;
@@ -28,12 +25,15 @@ public class Category {
     @ManyToMany(mappedBy = "categories")
     private Set<Book> books = new HashSet<>();
 
+    public Category(@NotBlank(message = "Category name is mandatory") String name) {
+        this.name = name;
+    }
+
     public void addBook(Book book) {
         books.add(book);
         book.addCategories(this);
     }
 
-    //equals and hashcode on name because it have to be unique
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
