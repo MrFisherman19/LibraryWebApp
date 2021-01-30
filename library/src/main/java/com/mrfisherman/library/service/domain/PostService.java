@@ -20,6 +20,7 @@ public class PostService {
 
     private final PostRepository postRepository;
     private final BookService bookService;
+    private final CommentService commentService;
     private final ExceptionHelper<Post> exceptionHelper;
 
     @Transactional
@@ -59,7 +60,7 @@ public class PostService {
 
     @Transactional
     public List<Comment> findCommentsByPostId(Long postId) {
-        return findById(postId).getComments();
+        return commentService.findByPostId(postId);
     }
 
     @Transactional
@@ -75,17 +76,13 @@ public class PostService {
     }
 
     @Transactional
-    public Post voteUp(Long id) {
-        Post one = getOne(id);
-        one.addVoteUp();
-        return save(one);
+    public void voteUp(Long id) {
+        postRepository.voteUp(id);
     }
 
     @Transactional
-    public Post voteDown(Long id) {
-        Post one = getOne(id);
-        one.addVoteDown();
-        return save(one);
+    public void voteDown(Long id) {
+        postRepository.voteDown(id);
     }
 
     private Post getOne(Long id) {

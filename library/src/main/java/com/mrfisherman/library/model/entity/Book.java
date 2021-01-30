@@ -4,17 +4,26 @@ import com.mrfisherman.library.model.entity.types.BookFormat;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.jpa.repository.EntityGraph;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.time.LocalDateTime;
 import java.util.*;
 
+
+@NamedEntityGraph(
+        name = "book-entity-graph",
+        attributeNodes = {
+                @NamedAttributeNode("authors"),
+                @NamedAttributeNode("categories")
+        }
+)
+@Entity
+@Table(name = "books")
 @Getter
 @Setter
 @NoArgsConstructor
-@Entity
-@Table(name = "books")
 public class Book {
 
     @Id

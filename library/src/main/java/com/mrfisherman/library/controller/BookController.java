@@ -30,8 +30,6 @@ public class BookController {
     @GetMapping
     public ResponseEntity<PagedModel<BookDto>> getBooks(@PageableDefault Pageable pageable) {
         PagedModel<BookDto> page = getBookDtoModel(pageable);
-        String a = null;
-        a.equals("sa");
         return new ResponseEntity<>(page, HttpStatus.OK);
     }
 

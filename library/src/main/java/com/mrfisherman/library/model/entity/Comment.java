@@ -32,9 +32,6 @@ public class Comment {
     @PositiveOrZero
     private int voteDown;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Post post;
-
-//    @ManyToOne
-//    private UserDetails user;
 }

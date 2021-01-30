@@ -50,15 +50,15 @@ public class PostController {
     }
 
     @PatchMapping("/{id}/voteUp")
-    @ResponseStatus(HttpStatus.OK)
-    public PostDto voteUpPost(@PathVariable Long id) {
-        return postResourceAssembler.toModel(postService.voteUp(id));
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public void voteUpPost(@PathVariable Long id) {
+        postService.voteUp(id);
     }
 
     @PatchMapping("/{id}/voteDown")
-    @ResponseStatus(HttpStatus.OK)
-    public PostDto voteDownPost(@PathVariable Long id) {
-        return postResourceAssembler.toModel(postService.voteDown(id));
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public void voteDownPost(@PathVariable Long id) {
+        postService.voteDown(id);
     }
 
     @GetMapping("/{id}/comments")

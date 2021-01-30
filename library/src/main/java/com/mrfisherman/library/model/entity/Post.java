@@ -58,13 +58,4 @@ public class Post {
         comments.add(comment);
         comment.setPost(this);
     }
-
-    public void addVoteUp() {
-        this.voteUp++;
-    }
-
-    public void addVoteDown() {
-        this.voteDown++;
-    }
-
 }

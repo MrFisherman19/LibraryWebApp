@@ -13,12 +13,12 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @RestController
-public class AuthorizationController {
+public class AuthenticationController {
 
     private final RegistrationService registrationService;
-    private final Logger logger = LoggerFactory.getLogger(AuthorizationController.class);
+    private final Logger logger = LoggerFactory.getLogger(AuthenticationController.class);
 
-    public AuthorizationController(RegistrationService registrationService) {
+    public AuthenticationController(RegistrationService registrationService) {
         this.registrationService = registrationService;
     }
 
