@@ -23,13 +23,15 @@ public class PostResourceAssembler implements RepresentationModelAssembler<Post,
     private final ModelMapper mapper;
 
     @Override
-    public PostDto toModel(Post entity) {
-        PostDto postDto = mapper.map(entity, PostDto.class);
-        postDto.add(getSelfLink(entity).andAffordance(
-                afford(methodOn(PostController.class).updatePost(entity.getId(), null))
+    public PostDto toModel(Post post) {
+        PostDto postDto = mapper.map(post, PostDto.class);
+        postDto.add(getSelfLink(post).andAffordance(
+                afford(methodOn(PostController.class).updatePost(post.getId(), null))
         ));
-        postDto.add(getBookLink(entity));
-        postDto.add(getLinkToComments(entity));
+        postDto.add(getBookLink(post));
+        postDto.add(getLinkToComments(post));
+        postDto.add(getLinkToVoteUp(post));
+        postDto.add(getLinkToVoteDown(post));
         return postDto;
     }
 
@@ -57,6 +59,14 @@ public class PostResourceAssembler implements RepresentationModelAssembler<Post,
     private Link getSelfLink(Post entity) {
         return linkTo(methodOn(PostController.class).getPost(entity.getId()))
                 .withSelfRel();
+    }
+
+    private Link getLinkToVoteUp(Post post) {
+        return linkTo(methodOn(PostController.class).voteUpPost(post.getId())).withRel("voteUp");
+    }
+
+    private Link getLinkToVoteDown(Post post) {
+        return linkTo(methodOn(PostController.class).voteDownPost(post.getId())).withRel("voteDown");
     }
 
 }

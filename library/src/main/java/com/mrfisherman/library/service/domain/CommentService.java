@@ -18,7 +18,7 @@ import static java.lang.String.format;
 public class CommentService {
 
     @Value("${comment.update_time_limit}")
-    private int updateTimeLimit;
+    private int updateTimeLimitInMinutes;
 
     private final CommentRepository commentRepository;
     private final ExceptionHelper<Comment> exceptionHelper;
@@ -37,14 +37,18 @@ public class CommentService {
     public Comment update(Long commentId, Comment commentToUpdate) {
         Comment comment = commentRepository.getOne(commentId);
         comment.setContent(commentToUpdate.getContent());
-        comment.setUpdated(LocalDateTime.now());
-
-        if (comment.getUpdated().isAfter(comment.getCreated().plusMinutes(updateTimeLimit))) {
-            throw new EntityUpdateTimeLimitExceededException(
-                    format("Comment can be updated only within %d minutes!", updateTimeLimit));
-        }
-
+        validateUpdatingTime(comment);
         return comment;
+    }
+
+    private void validateUpdatingTime(Comment comment) {
+        var maxUpdatingTime = comment.getCreated().plusMinutes(updateTimeLimitInMinutes);
+        if (LocalDateTime.now().isAfter(maxUpdatingTime)) {
+            throw new EntityUpdateTimeLimitExceededException(
+                    format("Comment can be updated only within %d minutes!", updateTimeLimitInMinutes));
+        } else {
+            comment.setUpdated(LocalDateTime.now());
+        }
     }
 
     @Transactional

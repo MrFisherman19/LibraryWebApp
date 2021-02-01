@@ -1,9 +1,9 @@
 package com.mrfisherman.library.service.domain;
 
 import com.mrfisherman.library.model.entity.Book;
-import com.mrfisherman.library.model.entity.Category;
-import com.mrfisherman.library.model.entity.types.BookFormat;
 import com.mrfisherman.library.persistence.repository.BookRepository;
+import com.mrfisherman.library.service.domain.stubs.BookStub;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,23 +13,29 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.ActiveProfiles;
 
-import java.util.HashSet;
+import javax.validation.ConstraintViolationException;
 import java.util.Optional;
-import java.util.Set;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @ActiveProfiles("test")
 @SpringBootTest
 class BookServiceTest {
+
+    private static BookStub bookStubs;
 
     @Autowired
     private BookService bookService;
 
     @Autowired
     private BookRepository bookRepository;
+
+    @BeforeAll
+    public static void setUp() {
+        bookStubs = new BookStub();
+    }
 
     @BeforeEach
     void clearDatabase() {
@@ -39,7 +45,7 @@ class BookServiceTest {
     @Test
     void should_save_book() {
         //given
-        Book book = getExampleBook();
+        Book book = bookStubs.getBook();
         //when
         bookService.save(book);
         //then
@@ -61,21 +67,41 @@ class BookServiceTest {
     @Test
     void should_throw_dataIntegrationException_when_isbn_is_not_unique() {
         //given
-        Book book1 = getExampleBook();
+        Book book1 = bookStubs.getBook();
         book1.setIsbn("1234567890");
-        Book book2 = getExampleBook();
+        Book book2 = bookStubs.getBook();
         book2.setIsbn("1234567890");
         //then
-        assertThrows(DataIntegrityViolationException.class, () -> {
+        assertThatThrownBy(() -> {
             bookService.save(book1);
             bookService.save(book2);
-        });
+        }).isInstanceOf(DataIntegrityViolationException.class);
+    }
+
+    @Test
+    void should_throw_constraintViolationException_when_isbn_is_null() {
+        //given
+        Book book1 = bookStubs.getBook();
+        book1.setIsbn(null);
+        //then
+        assertThatThrownBy(() -> bookService.save(book1))
+                .isInstanceOf(ConstraintViolationException.class);
+    }
+
+    @Test
+    void should_throw_constraintViolationException_when_title_is_null() {
+        //given
+        Book book1 = bookStubs.getBook();
+        book1.setTitle(null);
+        //then
+        assertThatThrownBy(() -> bookService.save(book1))
+                .isInstanceOf(ConstraintViolationException.class);
     }
 
     @Test
     void should_delete_book_by_id() {
         //given
-        Book book = getExampleBook();
+        Book book = bookStubs.getBook();
         bookRepository.save(book);
         Long id = book.getId();
         //when
@@ -88,7 +114,7 @@ class BookServiceTest {
     @Test
     void should_update_book() {
         //given
-        Book book = getExampleBook();
+        Book book = bookStubs.getBook();
         bookRepository.save(book);
         Long id = book.getId();
         //when
@@ -109,9 +135,9 @@ class BookServiceTest {
     @Test
     void should_find_books() {
         //given
-        Book book1 = getExampleBook();
+        Book book1 = bookStubs.getBook();
         book1.setIsbn("1234567890");
-        Book book2 = getExampleBook();
+        Book book2 = bookStubs.getBook();
         book2.setIsbn("0987654321");
         bookService.save(book1);
         bookService.save(book2);
@@ -119,23 +145,5 @@ class BookServiceTest {
         Page<Book> allBooks = bookService.findAll(PageRequest.of(0, 5));
         //then
         assertThat(allBooks.getTotalElements()).isGreaterThanOrEqualTo(2);
-    }
-
-    private Book getExampleBook() {
-        Book book = new Book();
-        book.setTitle("Book 1");
-        book.setPublishYear(1990);
-        book.setType(BookFormat.REAL);
-        book.setIsbn("1231124412132"); //have to be unique
-        book.setDescription("Very good book");
-        book.setNumberOfPages(190);
-        book.setSummary("Very short summary");
-
-        Set<Category> categories = new HashSet<>();
-        categories.add(new Category("horror"));
-        categories.add(new Category("drama"));
-        book.setCategories(categories);
-
-        return book;
     }
 }

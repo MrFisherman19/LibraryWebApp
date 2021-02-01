@@ -51,14 +51,16 @@ public class PostController {
 
     @PatchMapping("/{id}/voteUp")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public void voteUpPost(@PathVariable Long id) {
+    public ResponseEntity<Void> voteUpPost(@PathVariable Long id) {
         postService.voteUp(id);
+        return ResponseEntity.accepted().build();
     }
 
     @PatchMapping("/{id}/voteDown")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public void voteDownPost(@PathVariable Long id) {
+    public ResponseEntity<Void> voteDownPost(@PathVariable Long id) {
         postService.voteDown(id);
+        return ResponseEntity.accepted().build();
     }
 
     @GetMapping("/{id}/comments")

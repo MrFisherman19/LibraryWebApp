@@ -28,8 +28,7 @@ public class BookResourceAssembler implements RepresentationModelAssembler<Book,
         BookDto bookDto = mapper.map(entity, BookDto.class);
         Link selfLink = getSelfLink(entity);
         Link linkToPosts = getLinkToPosts(entity);
-        bookDto.add(selfLink);
-        bookDto.add(linkToPosts);
+        bookDto.add(selfLink, linkToPosts);
         return bookDto;
     }
 

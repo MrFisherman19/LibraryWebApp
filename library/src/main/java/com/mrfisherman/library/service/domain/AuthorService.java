@@ -1,9 +1,12 @@
 package com.mrfisherman.library.service.domain;
 
 import com.mrfisherman.library.model.entity.Author;
-import com.mrfisherman.library.repository.AuthorRepository;
+import com.mrfisherman.library.model.entity.Book;
+import com.mrfisherman.library.persistence.repository.AuthorRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Set;
 
 @Service
 public class AuthorService {
@@ -33,4 +36,14 @@ public class AuthorService {
         return authorRepository.findById(id).orElseThrow(exceptionHelper.getEntityNotFoundException(id, Author.class));
     }
 
+    @Transactional
+    public void deleteById(Long id) {
+        Author author = findById(id);
+        author.getBooks().forEach(book -> book.removeAuthor(author));
+        authorRepository.deleteById(id);
+    }
+
+    public Set<Book> getAuthorBooks(Long id) {
+        return findById(id).getBooks();
+    }
 }

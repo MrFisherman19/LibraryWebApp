@@ -1,4 +1,4 @@
-package com.mrfisherman.library.repository;
+package com.mrfisherman.library.persistence.repository;
 
 import com.mrfisherman.library.model.entity.VerificationToken;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -1,5 +1,6 @@
 package com.mrfisherman.library.service.domain;
 
+import com.mrfisherman.library.model.entity.Author;
 import com.mrfisherman.library.model.entity.Book;
 import com.mrfisherman.library.model.entity.Category;
 import com.mrfisherman.library.persistence.repository.BookRepository;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 

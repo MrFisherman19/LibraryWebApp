@@ -31,7 +31,7 @@ class BookControllerTest {
     private MockMvc mockMvc;
 
     @Test
-    @WithMockUser(username = "testUser")
+    @WithMockUser(username = "testUser", roles = {"ADMIN"})
     void shouldReturnBookById() throws Exception {
         long bookId = 1L;
 

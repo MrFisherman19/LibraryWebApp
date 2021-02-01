@@ -2,7 +2,7 @@ package com.mrfisherman.library.service.auth;
 
 import com.mrfisherman.library.exception.InvalidTokenException;
 import com.mrfisherman.library.model.entity.VerificationToken;
-import com.mrfisherman.library.repository.VerificationTokenRepository;
+import com.mrfisherman.library.persistence.repository.VerificationTokenRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
