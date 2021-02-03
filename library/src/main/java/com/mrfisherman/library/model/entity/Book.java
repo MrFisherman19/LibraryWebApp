@@ -62,10 +62,6 @@ public class Book {
     private LocalDateTime created = LocalDateTime.now();
     private LocalDateTime updated = LocalDateTime.now();
 
-    @Min(value = 1, message = "Minimal rating is 1")
-    @Max(value = 10, message = "Maximum rating is 10")
-    private Double rating = null;
-
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "books_categories",
             joinColumns = {@JoinColumn(name = "book_id",

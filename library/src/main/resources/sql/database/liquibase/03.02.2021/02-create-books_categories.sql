@@ -1,4 +1,6 @@
--- DROP TABLE IF EXISTS `books_categories`;
+-- liquibase formatted sql
+-- changeset mrfisherman:5
+
 CREATE TABLE IF NOT EXISTS `books_categories`
 (
     `book_id`       BIGINT      NOT NULL,

@@ -1,5 +1,6 @@
 package com.mrfisherman.library.model.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,6 +15,7 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -49,6 +51,17 @@ public class User implements UserDetails {
     @JoinTable(name = "user_roles", joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "role_id")})
     private Set<Role> roles = new HashSet<>();
+
+    public User( String username, String password, boolean isEnabled, boolean isNonExpired,
+                 boolean isCredentialsNonExpired, boolean isNonLocked, Set<Role> roles) {
+        this.username = username;
+        this.password = password;
+        this.isEnabled = isEnabled;
+        this.isNonExpired = isNonExpired;
+        this.isNonLocked = isNonLocked;
+        this.isCredentialsNonExpired = isCredentialsNonExpired;
+        this.roles = roles;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

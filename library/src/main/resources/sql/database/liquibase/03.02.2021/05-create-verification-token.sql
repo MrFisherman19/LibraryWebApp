@@ -1,4 +1,6 @@
-CREATE TABLE `verification_token`
+-- liquibase formatted sql
+-- changeset mrfisherman:12
+CREATE TABLE IF NOT EXISTS `verification_token`
 (
     `id`         BIGINT NOT NULL auto_increment primary key,
     `token`      varchar(100),

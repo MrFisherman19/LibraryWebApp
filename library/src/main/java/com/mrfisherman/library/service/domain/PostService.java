@@ -5,6 +5,9 @@ import com.mrfisherman.library.model.entity.Comment;
 import com.mrfisherman.library.model.entity.Post;
 import com.mrfisherman.library.persistence.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -24,11 +27,13 @@ public class PostService {
     private final ExceptionHelper<Post> exceptionHelper;
 
     @Transactional
+    @Cacheable(cacheNames = "findAllPosts")
     public Page<Post> getAllPosts(Pageable pageable) {
         return postRepository.findAll(pageable);
     }
 
     @Transactional
+    @Cacheable(cacheNames = "findPostById")
     public Post findById(Long id) {
         return postRepository.findById(id).orElseThrow(exceptionHelper.getEntityNotFoundException(id, Post.class));
     }
@@ -43,13 +48,15 @@ public class PostService {
     }
 
     @Transactional
-    public void deleteById(Long postId) {
-        Post post = findById(postId);
+    @CacheEvict(cacheNames = "findPostById")
+    public void deleteById(Long id) {
+        Post post = findById(id);
         post.getBook().removePost(post);
         postRepository.delete(post);
     }
 
     @Transactional
+    @CachePut(cacheNames = "findPostById", key = "#result.id")
     public Post update(Long postId, Post postToUpdate) {
         Post post = postRepository.getOne(postId);
         post.setTitle(postToUpdate.getTitle());

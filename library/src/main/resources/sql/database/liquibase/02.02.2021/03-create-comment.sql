@@ -1,4 +1,6 @@
--- DROP TABLE IF EXISTS `comments`;
+-- liquibase formatted sql
+-- changeset mrfisherman:3
+
 CREATE TABLE IF NOT EXISTS `comments`
 (
     `id`        BIGINT NOT NULL AUTO_INCREMENT,

@@ -15,5 +15,4 @@ public class AuthorDto extends RepresentationModel<AuthorDto> {
 
     private Long id;
     private String name;
-    private double rating;
 }

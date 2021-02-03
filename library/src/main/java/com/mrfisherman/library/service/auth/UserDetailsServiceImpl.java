@@ -1,10 +1,10 @@
 package com.mrfisherman.library.service.auth;
 
+import com.mrfisherman.library.model.entity.User;
 import com.mrfisherman.library.persistence.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -32,8 +32,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                         user.isAccountNonExpired(),
                         user.isCredentialsNonExpired(),
                         user.isNonLocked(),
-                        user.getRoles().stream()
-                                .map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList())))
+                        user.getRoles()))
                 .orElseThrow(() -> new InternalAuthenticationServiceException(format("User with given username %s not found!", username)));
     }
 }

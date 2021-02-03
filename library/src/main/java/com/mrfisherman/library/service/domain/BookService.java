@@ -1,21 +1,20 @@
 package com.mrfisherman.library.service.domain;
 
-import com.mrfisherman.library.model.entity.Author;
 import com.mrfisherman.library.model.entity.Book;
 import com.mrfisherman.library.model.entity.Category;
 import com.mrfisherman.library.persistence.repository.BookRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-
-import static java.lang.String.format;
 
 @AllArgsConstructor
 @Service
@@ -36,17 +35,20 @@ public class BookService {
     }
 
     @Transactional
+    @Cacheable(cacheNames = "findBookById", key = "#id")
     public Book findById(Long id) {
         return bookRepository.findById(id).orElseThrow(
                 exceptionHelper.getEntityNotFoundException(id, Book.class));
     }
 
     @Transactional
+    @Cacheable(cacheNames = "findAllBooks")
     public Page<Book> findAll(Pageable pageable) {
         return bookRepository.findAll(pageable);
     }
 
     @Transactional
+    @CachePut(cacheNames = "findBookById", key = "#result.id")
     public Book update(Long id, Book book) {
         Book bookToUpdate = findById(id);
         bookToUpdate.setTitle(book.getTitle());
@@ -61,6 +63,7 @@ public class BookService {
     }
 
     @Transactional
+    @CacheEvict(cacheNames = "findBookById")
     public void deleteById(Long id) {
         if (bookRepository.existsById(id)) {
             bookRepository.deleteById(id);

@@ -1,4 +1,6 @@
--- DROP TABLE IF EXISTS `books`;
+-- liquibase formatted sql
+-- changeset mrfisherman:1
+
 CREATE TABLE IF NOT EXISTS `books`
 (
     `id`              BIGINT             NOT NULL AUTO_INCREMENT,
@@ -11,6 +13,5 @@ CREATE TABLE IF NOT EXISTS `books`
     `isbn`            VARCHAR(13) UNIQUE NOT NULL,
     `created`         DATETIME,
     `updated`         DATETIME,
-    `rating`          DECIMAL(3, 2),
     PRIMARY KEY (`id`)
 );

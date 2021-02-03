@@ -25,7 +25,6 @@ public class BookDto extends RepresentationModel<BookDto> {
     private Integer numberOfPages;
     private LocalDateTime created;
     private LocalDateTime updated;
-    private double rating;
     private Set<CategoryDto> categories;
     private Set<AuthorDto> authors;
 }
