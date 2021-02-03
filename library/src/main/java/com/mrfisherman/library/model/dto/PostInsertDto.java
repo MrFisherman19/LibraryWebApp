@@ -15,7 +15,6 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 public class PostInsertDto {
 
-    @NotNull(message = "Book id can't be null when inserting the post")
     private Long bookId;
 
     @NotBlank(message = "Title of post is mandatory")

@@ -40,10 +40,10 @@ public class PostService {
 
     @Transactional
     public Post save(Post post) {
-        Optional<Book> bookOpt = Optional.ofNullable(post.getBook());
-        Book bookInPost = bookOpt.orElseThrow(() -> new IllegalArgumentException("Book id for new Post cannot be null!"));
-        Book book = bookService.findById(bookInPost.getId());
-        book.addPost(post);
+        if (post.getBook() != null) {
+            Book book = bookService.findById(post.getBook().getId());
+            book.addPost(post);
+        }
         return postRepository.save(post);
     }
 

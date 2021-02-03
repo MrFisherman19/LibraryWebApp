@@ -28,7 +28,9 @@ public class PostResourceAssembler implements RepresentationModelAssembler<Post,
         postDto.add(getSelfLink(post).andAffordance(
                 afford(methodOn(PostController.class).updatePost(post.getId(), null))
         ));
-        postDto.add(getBookLink(post));
+        if (post.getBook() != null) {
+            postDto.add(getBookLink(post));
+        }
         postDto.add(getLinkToComments(post));
         postDto.add(getLinkToVoteUp(post));
         postDto.add(getLinkToVoteDown(post));

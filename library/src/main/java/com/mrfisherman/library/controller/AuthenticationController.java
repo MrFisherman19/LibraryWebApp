@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.io.IOException;
 
 @RestController
@@ -23,13 +24,13 @@ public class AuthenticationController {
     }
 
     @PostMapping("/login")
-    public void login(@RequestBody LoginCredentials loginCredentials) {
+    public void login(@Valid @RequestBody LoginCredentials loginCredentials) {
         throw new IllegalStateException("This method should not be called. It is implemented by Spring Security.");
     }
 
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.OK)
-    public void register(@RequestBody RegisterCredentials registerCredentials) {
+    public void register(@Valid @RequestBody RegisterCredentials registerCredentials) {
         registrationService.registerUser(registerCredentials);
     }
 
@@ -37,6 +38,11 @@ public class AuthenticationController {
     @ResponseStatus(HttpStatus.PERMANENT_REDIRECT)
     public void verifyToken(@RequestParam String token, HttpServletResponse response) throws IOException {
         if (registrationService.confirmRegistration(token)) response.sendRedirect("/");
+    }
+
+    @GetMapping("/secured")
+    public String secured() {
+        return "secured content";
     }
 
     @ExceptionHandler(value = {IOException.class})

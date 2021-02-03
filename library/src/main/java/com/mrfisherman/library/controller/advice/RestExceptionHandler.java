@@ -33,7 +33,7 @@ public class RestExceptionHandler {
         return new ApiErrorResponse(HttpStatus.BAD_REQUEST, e.getMessage());
     }
 
-    @ExceptionHandler(value = ConstraintViolationException.class)
+    @ExceptionHandler(value = {ConstraintViolationException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ApiValidationErrorResponse handleConstraintViolationException(ConstraintViolationException e) {
         var constraintViolations = e.getConstraintViolations().stream()

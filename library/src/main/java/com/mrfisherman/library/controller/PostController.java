@@ -37,9 +37,7 @@ public class PostController {
     public ResponseEntity<PagedModel<PostDto>> getPosts(@RequestParam(required = false) Long bookId,
                                                         @PageableDefault Pageable pageable) {
         Optional<Long> bookParam = Optional.ofNullable(bookId);
-
         PagedModel<PostDto> page = getPostDtoModel(pageable, bookParam);
-
         return new ResponseEntity<>(page, HttpStatus.OK);
     }
 

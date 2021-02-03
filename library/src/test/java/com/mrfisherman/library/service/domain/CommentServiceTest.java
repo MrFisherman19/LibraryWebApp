@@ -1,32 +1,22 @@
 package com.mrfisherman.library.service.domain;
 
-import com.mrfisherman.library.model.entity.Book;
-import com.mrfisherman.library.model.entity.Category;
 import com.mrfisherman.library.model.entity.Comment;
 import com.mrfisherman.library.model.entity.Post;
-import com.mrfisherman.library.model.entity.types.BookFormat;
-import com.mrfisherman.library.persistence.repository.BookRepository;
 import com.mrfisherman.library.persistence.repository.CommentRepository;
 import com.mrfisherman.library.persistence.repository.PostRepository;
-import com.mrfisherman.library.service.domain.stubs.BookStub;
 import com.mysql.cj.exceptions.AssertionFailedException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import javax.persistence.EntityNotFoundException;
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.*;
 
 @ActiveProfiles("test")
 @SpringBootTest
@@ -41,12 +31,8 @@ class CommentServiceTest {
     @Autowired
     private PostRepository postRepository;
 
-    @Autowired
-    private BookRepository bookRepository;
-
     @BeforeEach
     void clearDatabase() {
-        bookRepository.deleteAll();
         postRepository.deleteAll();
         commentRepository.deleteAll();
     }
@@ -115,7 +101,7 @@ class CommentServiceTest {
         Post post = getExampleCorrectPost();
         postRepository.save(post);
 
-        var timeOfCreation = LocalDateTime.of(1970, 1,1,0, 0);
+        var timeOfCreation = LocalDateTime.of(1970, 1, 1, 0, 0);
 
         Comment comment = new Comment();
         comment.setContent("Very good book!");
@@ -162,16 +148,10 @@ class CommentServiceTest {
     }
 
     private Post getExampleCorrectPost() {
-        BookStub bookStub = new BookStub();
-        Book book = bookStub.getBook();
-        bookRepository.save(book);
-
         Post post = new Post();
         post.setTitle("Title of post");
         post.setContent("Content of post");
         post.setCreated(LocalDateTime.now());
-        post.setBook(book);
-
         return post;
     }
 }

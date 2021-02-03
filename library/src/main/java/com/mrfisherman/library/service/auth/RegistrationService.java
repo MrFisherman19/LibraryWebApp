@@ -8,18 +8,18 @@ import com.mrfisherman.library.model.entity.User;
 import com.mrfisherman.library.model.entity.types.UserRole;
 import com.mrfisherman.library.persistence.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
+import javax.validation.ConstraintViolationException;
 import java.util.Set;
-import java.util.function.Predicate;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class RegistrationService {
 
     private final UserRepository userRepository;
